@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <div className="max-w-screen-lg max-h-screen mx-auto ">{children}</div>
+        <div className="max-w-screen-lg mx-auto">{children}</div>
       </body>
     </html>
   );

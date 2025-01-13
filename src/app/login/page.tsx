@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import InputField from "./components/InputField";
-import SocialLogin from "./components/SocialLogin";
+import InputField from "../components/InputField";
+import SocialLogin from "../components/SocialLogin";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -18,8 +19,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg">
+        <Image
+          src="/appIcon.png"
+          alt="appIcon"
+          width={100}
+          height={100}
+          className="mx-auto my-8"
+        />
         <form onSubmit={handleLogin} className="space-y-4">
           <InputField
             label="이메일"
@@ -27,6 +35,7 @@ export default function LoginPage() {
             value={email}
             onChange={setEmail}
             placeholder="이메일"
+            isClearable={email !== ""}
           />
           <InputField
             label="비밀번호"
@@ -34,6 +43,7 @@ export default function LoginPage() {
             value={password}
             onChange={setPassword}
             placeholder="비밀번호"
+            isClearable={password !== ""}
           />
           <button
             type="submit"
