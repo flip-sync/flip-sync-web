@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Modal from "./components/Modal";
 
 export const metadata: Metadata = {
   title: "flip-sync",
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <div className="max-w-screen-lg mx-auto">{children}</div>
+        <Modal />
       </body>
     </html>
   );

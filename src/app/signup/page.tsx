@@ -6,6 +6,7 @@ import InputField from "../components/InputField";
 import VerificationInput from "./components/VerificationInput";
 import SocialLogin from "../components/SocialLogin";
 import CheckInputField from "../components/checkInputField";
+import { useModal } from "../hooks/useModal";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ export default function SignupPage() {
   const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
+  const { openModal, closeModal } = useModal();
 
   const isFormValid =
     email &&
@@ -28,7 +30,14 @@ export default function SignupPage() {
     e.preventDefault();
     if (!isFormValid) return;
     // TODO: 회원가입 API 호출
-    router.push("/login");
+
+    // 회원가입 완료 모달 열기
+    openModal("signupComplete", {
+      onClick: () => {
+        closeModal();
+        router.push("/login");
+      },
+    });
   };
 
   const passwordRules = [
