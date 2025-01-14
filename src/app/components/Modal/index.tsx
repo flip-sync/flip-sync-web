@@ -7,7 +7,7 @@ import SignupCompleteModal from "./SignupCompleteModal";
 
 type ModalType = "alert" | "confirm" | "signupComplete";
 
-const MODAL_COMPONENTS: Record<ModalType, React.ComponentType<any>> = {
+const MODAL_COMPONENTS = {
   alert: AlertModal,
   confirm: ConfirmModal,
   signupComplete: SignupCompleteModal,

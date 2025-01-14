@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import InputField from "./InputField";
 
 interface ValidationRule {
@@ -33,7 +33,7 @@ export default function CheckInputField({
   const [error, setError] = useState<string>("");
   const [isDirty, setIsDirty] = useState(false);
 
-  const validate = () => {
+  const validate = useCallback(() => {
     for (const rule of rules) {
       if (!rule.validate(value)) {
         setError(rule.message);
@@ -43,13 +43,13 @@ export default function CheckInputField({
     }
     setError("");
     onValidation?.(true);
-  };
+  }, [rules, value, onValidation]);
 
   useEffect(() => {
     if (validateMode === "immediate" && isDirty) {
       validate();
     }
-  }, [value, validateMode, isDirty]);
+  }, [validate, validateMode, isDirty]);
 
   const handleBlur = () => {
     setIsDirty(true);
