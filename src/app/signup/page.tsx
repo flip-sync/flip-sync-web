@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import InputField from "../components/InputField";
 import VerificationInput from "./components/VerificationInput";
 import SocialLogin from "../components/SocialLogin";
+import CheckInputField from "../components/checkInputField";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -13,14 +14,15 @@ export default function SignupPage() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [name, setName] = useState("");
   const router = useRouter();
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
 
   const isFormValid =
     email &&
     verificationCode &&
-    password &&
-    passwordConfirm &&
-    name &&
-    password === passwordConfirm;
+    isPasswordValid &&
+    isPasswordConfirmValid &&
+    name;
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,9 +31,32 @@ export default function SignupPage() {
     router.push("/login");
   };
 
+  const passwordRules = [
+    {
+      validate: (value: string) => value.length >= 8,
+      message: "비밀번호는 8자 이상이어야 합니다.",
+    },
+    {
+      validate: (value: string) => /[A-Z]/.test(value),
+      message: "대문자를 포함해야 합니다.",
+    },
+    {
+      validate: (value: string) => /[0-9]/.test(value),
+      message: "숫자를 포함해야 합니다.",
+    },
+  ];
+
+  const passwordConfirmRules = [
+    {
+      validate: (value: string) => value === password,
+      message: "비밀번호가 일치하지 않습니다.",
+    },
+  ];
+
   return (
     <div className="flex items-center justify-center py-12">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg">
+        <h1 className="text-2xl font-bold">회원가입</h1>
         <form onSubmit={handleSignup} className="space-y-4">
           <VerificationInput
             email={email}
@@ -39,19 +64,25 @@ export default function SignupPage() {
             verificationCode={verificationCode}
             onVerificationChange={setVerificationCode}
           />
-          <InputField
+          <CheckInputField
             label="비밀번호"
             type="password"
             value={password}
             onChange={setPassword}
             placeholder="비밀번호"
+            rules={passwordRules}
+            validateMode="immediate"
+            onValidation={setIsPasswordValid}
           />
-          <InputField
+          <CheckInputField
             label="비밀번호 확인"
             type="password"
             value={passwordConfirm}
             onChange={setPasswordConfirm}
             placeholder="비밀번호 확인"
+            rules={passwordConfirmRules}
+            validateMode="immediate"
+            onValidation={setIsPasswordConfirmValid}
           />
           <InputField
             label="이름"

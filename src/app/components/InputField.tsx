@@ -8,6 +8,7 @@ interface InputFieldProps {
   placeholder: string;
   isClearable?: boolean;
   disabled?: boolean;
+  onBlur?: () => void;
 }
 
 export default function InputField({
@@ -18,6 +19,7 @@ export default function InputField({
   placeholder,
   disabled = false,
   isClearable = false,
+  onBlur,
 }: InputFieldProps) {
   return (
     <div className="flex flex-col gap-2">
@@ -34,6 +36,7 @@ export default function InputField({
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none border-gray-7 focus:border-gray-5 ${
             disabled ? "bg-gray-8 text-gray-6 cursor-not-allowed" : ""
           }`}
+          onBlur={onBlur}
         />
         {value && isClearable && (
           <button

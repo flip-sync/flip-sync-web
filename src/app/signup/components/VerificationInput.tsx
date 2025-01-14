@@ -16,6 +16,9 @@ export default function VerificationInput({
 }: VerificationInputProps) {
   const [isRequested, setIsRequested] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300);
+  const [verificationStatus, setVerificationStatus] = useState<
+    "" | "success" | "error"
+  >("");
 
   useEffect(() => {
     if (!isRequested) return;
@@ -33,6 +36,16 @@ export default function VerificationInput({
     return () => clearInterval(timer);
   }, [isRequested]);
 
+  useEffect(() => {
+    if (verificationCode.length === 6) {
+      // TODO: 실제 API 호출로 변경
+      const isValid = verificationCode === "123456"; // 임시 검증 로직
+      setVerificationStatus(isValid ? "success" : "error");
+    } else {
+      setVerificationStatus("");
+    }
+  }, [verificationCode]);
+
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
@@ -44,6 +57,8 @@ export default function VerificationInput({
 
   const handleResend = () => {
     setTimeLeft(300);
+    setVerificationStatus("");
+    onVerificationChange("");
     // TODO: 재인증 요청 API 호출
   };
 
@@ -73,25 +88,49 @@ export default function VerificationInput({
       </div>
 
       {isRequested && (
-        <div className="relative">
-          <InputField
-            label="인증번호"
-            type="text"
-            value={verificationCode}
-            onChange={onVerificationChange}
-            placeholder="인증번호 6자리 입력"
-          />
-          <div className="absolute right-16 top-[37.5px] text-sm text-primary">
-            {`${minutes}:${seconds.toString().padStart(2, "0")}`}
+        <div>
+          <div className="relative">
+            <InputField
+              label="인증번호"
+              type="text"
+              value={verificationCode}
+              onChange={(value) => {
+                const numericValue = value.replace(/[^0-9]/g, "");
+                if (numericValue.length <= 6) {
+                  onVerificationChange(numericValue);
+                }
+              }}
+              placeholder="인증번호 6자리 입력"
+              disabled={verificationStatus === "success"}
+            />
+            {verificationStatus !== "success" && (
+              <div className="flex items-center gap-2 absolute right-3 top-[35.5px] text-sm">
+                <span className="text-primary">
+                  {`${minutes}:${seconds.toString().padStart(2, "0")}`}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleResend}
+                  className="text-gray-4 bg-gray-8 text-[12px] leading-[18px] px-2 py-1 rounded-[4px]"
+                >
+                  재전송
+                </button>
+              </div>
+            )}
           </div>
-          <button
-            type="button"
-            onClick={handleResend}
-            className={`absolute right-3 top-[34px] bg-gray-8 text-[12px] leading-[18px] px-2 py-1 rounded-[4px] text-gray-4 hover:text-primary-dark
-          `}
-          >
-            재전송
-          </button>
+          {verificationStatus && (
+            <p
+              className={`mt-1 text-[12px] ${
+                verificationStatus === "success"
+                  ? "text-primary"
+                  : "text-red-500"
+              }`}
+            >
+              {verificationStatus === "success"
+                ? "인증번호가 일치합니다."
+                : "인증번호가 일치하지 않습니다."}
+            </p>
+          )}
         </div>
       )}
     </div>
