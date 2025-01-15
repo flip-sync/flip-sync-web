@@ -53,7 +53,7 @@ export default function LoginPage() {
           </button>
         </form>
         <div className="flex justify-center items-center gap-x-3 text-sm text-gray-600">
-          <Link href="/signup" className="hover:text-primary">
+          <Link href="/sign-up" className="hover:text-primary">
             회원가입
           </Link>
           <div className="w-[1px] h-[22px] bg-gray-6" />
