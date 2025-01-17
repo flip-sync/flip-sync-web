@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import InputField from "../components/InputField";
 import VerificationInput from "./components/VerificationInput";
 import SocialLogin from "../components/SocialLogin";
-import CheckInputField from "../components/checkInputField";
+import CheckInputField from "../components/CheckInputField";
 import { useModal } from "../hooks/useModal";
 
 export default function SignupPage() {
