@@ -64,7 +64,7 @@ export default function ForgotPassword() {
   const handlePasswordSubmit = useCallback(() => {
     // TODO: 비밀번호 변경 API 호출
     openModal("alert", { message: "비밀번호가 변경되었습니다." });
-  }, [password, openModal]);
+  }, [openModal]);
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6">
