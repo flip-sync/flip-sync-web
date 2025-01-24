@@ -1,3 +1,4 @@
+import BottomBar from "../components/BottomBar";
 import Footer from "../components/Footer";
 import TopBar from "../components/TobBar";
 
@@ -10,6 +11,7 @@ export default function RootLayout({
     <div className="max-w-screen-lg mx-auto">
       <TopBar />
       {children}
+      <BottomBar />
       <Footer />
     </div>
   );
