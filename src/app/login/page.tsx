@@ -12,10 +12,23 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(email, password);
-    router.push("/");
+    try {
+      // API 호출
+      const response = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+
+      // 쿠키에 토큰 저장
+      document.cookie = `token=${data.token}; path=/`;
+
+      router.push("/rooms");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
