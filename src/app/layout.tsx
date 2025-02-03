@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Modal from "../lib/components/Modal";
+import Modal from "./components/Modal";
 
 export const metadata: Metadata = {
   title: "flip-sync",

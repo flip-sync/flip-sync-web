@@ -2,30 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import InputField from "../../lib/components/InputField";
+import InputField from "../components/InputField";
 import VerificationInput from "./components/VerificationInput";
-import SocialLogin from "../../lib/components/SocialLogin";
-import CheckInputField from "../../lib/components/CheckInputField";
-import { useModal } from "../../lib/hooks/useModal";
-import { authApi } from "@/lib/apis/auth";
-
-const verifyEmail = (email: string) => {
-  try {
-    return authApi.verifyEmail(email);
-  } catch (error) {
-    console.error("이메일 인증 요청 실패:", error);
-    throw error;
-  }
-};
-
-const verifyCode = (email: string, code: string) => {
-  try {
-    return authApi.verifyEmailCheck(email, code);
-  } catch (error) {
-    console.error("인증번호 확인 실패:", error);
-    throw error;
-  }
-};
+import SocialLogin from "../components/SocialLogin";
+import CheckInputField from "../components/CheckInputField";
+import { useModal } from "../hooks/useModal";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -50,6 +31,7 @@ export default function SignupPage() {
     if (!isFormValid) return;
     // TODO: 회원가입 API 호출
 
+    // 회원가입 완료 모달 열기
     openModal("signupComplete", {
       onClick: () => {
         closeModal();
@@ -90,8 +72,6 @@ export default function SignupPage() {
             onEmailChange={setEmail}
             verificationCode={verificationCode}
             onVerificationChange={setVerificationCode}
-            verifyEmail={verifyEmail}
-            verifyCode={verifyCode}
           />
           <CheckInputField
             label="비밀번호"

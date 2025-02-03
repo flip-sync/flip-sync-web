@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import InputField from "../../../lib/components/InputField";
+import InputField from "../../components/InputField";
 
 interface VerificationInputProps {
   email: string;
   onEmailChange: (value: string) => void;
   verificationCode: string;
   onVerificationChange: (value: string) => void;
-  verifyEmail: (email: string) => void;
-  verifyCode: (email: string, code: string) => void;
 }
 
 export default function VerificationInput({
@@ -15,8 +13,6 @@ export default function VerificationInput({
   onEmailChange,
   verificationCode,
   onVerificationChange,
-  verifyEmail,
-  verifyCode,
 }: VerificationInputProps) {
   const [isRequested, setIsRequested] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300);
@@ -41,45 +37,29 @@ export default function VerificationInput({
   }, [isRequested]);
 
   useEffect(() => {
-    const verifyCodeAsync = async () => {
-      if (verificationCode.length === 6) {
-        try {
-          const response = await verifyCode(email, verificationCode);
-          console.log(response);
-          // setVerificationStatus(response.isValid ? "success" : "error");
-        } catch (error) {
-          setVerificationStatus("error");
-        }
-      } else {
-        setVerificationStatus("");
-      }
-    };
-
-    verifyCodeAsync();
-  }, [verificationCode, email]);
+    if (verificationCode.length === 6) {
+      // TODO: 실제 API 호출로 변경
+      const isValid = verificationCode === "123456"; // 임시 검증 로직
+      setVerificationStatus(isValid ? "success" : "error");
+    } else {
+      setVerificationStatus("");
+    }
+  }, [verificationCode]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
-  const handleRequest = async () => {
-    try {
-      await verifyEmail(email);
-      setIsRequested(true);
-      setTimeLeft(300);
-    } catch (error) {
-      // 에러 처리
-    }
+  const handleRequest = () => {
+    setIsRequested(true);
+    setTimeLeft(300);
+    // TODO: 인증 요청 API 호출
   };
 
-  const handleResend = async () => {
-    try {
-      await verifyEmail(email);
-      setTimeLeft(300);
-      setVerificationStatus("");
-      onVerificationChange("");
-    } catch (error) {
-      // 에러 처리
-    }
+  const handleResend = () => {
+    setTimeLeft(300);
+    setVerificationStatus("");
+    onVerificationChange("");
+    // TODO: 재인증 요청 API 호출
   };
 
   return (
