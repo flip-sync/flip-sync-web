@@ -1,5 +1,6 @@
 import InputField from "@/libs/components/InputField";
 import { useState, useEffect } from "react";
+import { authApi } from "../apis/auth";
 
 interface VerificationInputProps {
   email: string;
@@ -52,7 +53,7 @@ export default function VerificationInput({
   const handleRequest = () => {
     setIsRequested(true);
     setTimeLeft(300);
-    // TODO: 인증 요청 API 호출
+    authApi.verifyEmail(email);
   };
 
   const handleResend = () => {

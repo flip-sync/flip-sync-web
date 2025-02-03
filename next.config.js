@@ -9,6 +9,14 @@ const nextConfig = {
       },
     ],
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: "https://devapi.flip-sync.com/:path*",
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;

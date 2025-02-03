@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import VerificationInput from "./components/VerificationInput";
 import { useModal } from "../hooks/useModal";
-import CheckInputField from "@/libs/components/CheckInputField";
-import InputField from "@/libs/components/InputField";
-import SocialLogin from "@/libs/components/SocialLogin";
+import VerificationInput from "../components/VerificationInput";
+import CheckInputField from "../components/CheckInputField";
+import InputField from "../components/InputField";
+import SocialLogin from "../components/SocialLogin";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");

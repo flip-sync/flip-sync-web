@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import InputField from "@/libs/components/InputField";
-import SocialLogin from "@/libs/components/SocialLogin";
+import InputField from "../components/InputField";
+import SocialLogin from "../components/SocialLogin";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -14,21 +14,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      // API 호출
-      const response = await fetch("/api/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-
-      // 쿠키에 토큰 저장
-      document.cookie = `token=${data.token}; path=/`;
-
-      router.push("/rooms");
-    } catch (error) {
-      console.error(error);
-    }
+    router.push("/rooms");
   };
 
   return (

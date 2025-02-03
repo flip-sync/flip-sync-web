@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useModal } from "../hooks/useModal";
-import CheckInputField from "@/libs/components/CheckInputField";
+import CheckInputField from "../components/CheckInputField";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState<number>(1);
