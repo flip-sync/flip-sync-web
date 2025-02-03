@@ -15,9 +15,9 @@ export function middleware(request: NextRequest) {
   //   return NextResponse.redirect(new URL("/rooms", request.url));
   // }
 
-  if (request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/rooms", request.url));
-  }
+  // if (request.nextUrl.pathname === "/") {
+  //   return NextResponse.redirect(new URL("/rooms", request.url));
+  // }
 
-  return NextResponse.next();
+  // return NextResponse.next();
 }
