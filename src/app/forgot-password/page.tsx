@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import CheckInputField from "../components/CheckInputField";
-import { useModal } from "../hooks/useModal";
+import CheckInputField from "../../lib/components/CheckInputField";
+import { useModal } from "../../lib/hooks/useModal";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState<number>(1);

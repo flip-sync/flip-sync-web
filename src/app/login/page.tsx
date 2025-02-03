@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import InputField from "../components/InputField";
-import SocialLogin from "../components/SocialLogin";
+import InputField from "../../lib/components/InputField";
+import SocialLogin from "../../lib/components/SocialLogin";
 import Image from "next/image";
 
 export default function LoginPage() {
@@ -14,21 +14,20 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      // API 호출
-      const response = await fetch("/api/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
+    // try {
+    //   const response = await fetch("/api/login", {
+    //     method: "POST",
+    //     body: JSON.stringify({ email, password }),
+    //   });
+    //   const data = await response.json();
 
-      // 쿠키에 토큰 저장
-      document.cookie = `token=${data.token}; path=/`;
+    //   document.cookie = `token=${data.token}; path=/`;
 
-      router.push("/rooms");
-    } catch (error) {
-      console.error(error);
-    }
+    //   router.push("/rooms");
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    router.push("/rooms");
   };
 
   return (
