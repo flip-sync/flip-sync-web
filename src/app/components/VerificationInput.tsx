@@ -1,6 +1,6 @@
-import InputField from "@/libs/components/InputField";
+import { authApi } from "@/libs/apis/auth";
 import { useState, useEffect } from "react";
-import { authApi } from "../apis/auth";
+import InputField from "./InputField";
 
 interface VerificationInputProps {
   email: string;

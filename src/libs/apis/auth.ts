@@ -1,4 +1,4 @@
-import { fetchApi } from "../api";
+import { api } from "../api";
 
 interface ILoginParams {
   email: string;
@@ -14,28 +14,24 @@ interface ISignUpParams {
 
 export const authApi = {
   login: (data: ILoginParams) =>
-    fetchApi("/auth/login", {
-      method: "POST",
+    api.post("/auth/login", {
       data,
     }),
 
   verifyEmail: (email: string) => {
-    fetchApi("/auth/verify-email", {
-      method: "POST",
+    api.get("/auth/verify-email", {
       data: { email },
     });
   },
 
   verifyEmailCheck: (email: string, code: string) => {
-    fetchApi("/auth/verify-email/check", {
-      method: "POST",
+    api.post("/auth/verify-email/check", {
       data: { email, code },
     });
   },
 
   signUp: (data: ISignUpParams) =>
-    fetchApi("/auth/signup", {
-      method: "POST",
+    api.post("/auth/signup", {
       data,
     }),
 };
