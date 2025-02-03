@@ -1,6 +1,6 @@
-import BottomBar from "../components/BottomBar";
-import Footer from "../components/Footer";
-import TopBar from "../components/TobBar";
+import BottomBar from "@/libs/components/BottomBar";
+import Footer from "@/libs/components/Footer";
+import TopBar from "@/libs/components/TobBar";
 
 export default function RootLayout({
   children,

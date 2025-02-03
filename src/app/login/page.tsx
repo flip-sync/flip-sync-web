@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import InputField from "../components/InputField";
-import SocialLogin from "../components/SocialLogin";
 import Image from "next/image";
+import InputField from "@/libs/components/InputField";
+import SocialLogin from "@/libs/components/SocialLogin";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
