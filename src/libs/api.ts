@@ -1,14 +1,14 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
-  data?: any;
+interface RequestOptions<T = any> extends Omit<RequestInit, "body" | "method"> {
+  data?: T;
 }
 
 class Api {
-  private async request(
+  private async request<T>(
     endpoint: string,
     method: string,
-    options: RequestOptions = {}
+    options: RequestOptions<T> = {}
   ) {
     const { data, ...customOptions } = options;
 
@@ -24,7 +24,7 @@ class Api {
 
     let url = `${BASE_URL}${endpoint}`;
     if (method === "GET" && data) {
-      const queryParams = new URLSearchParams(data).toString();
+      const queryParams = new URLSearchParams(data as any).toString();
       url = `${url}?${queryParams}`;
     }
 
@@ -44,28 +44,28 @@ class Api {
   }
 
   // GET 요청
-  async get(endpoint: string, options: RequestOptions = {}) {
-    return this.request(endpoint, "GET", options);
+  async get<T>(endpoint: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(endpoint, "GET", options);
   }
 
   // POST 요청
-  async post(endpoint: string, options: RequestOptions = {}) {
-    return this.request(endpoint, "POST", options);
+  async post<T>(endpoint: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(endpoint, "POST", options);
   }
 
   // PUT 요청
-  async put(endpoint: string, options: RequestOptions = {}) {
-    return this.request(endpoint, "PUT", options);
+  async put<T>(endpoint: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(endpoint, "PUT", options);
   }
 
   // PATCH 요청
-  async patch(endpoint: string, options: RequestOptions = {}) {
-    return this.request(endpoint, "PATCH", options);
+  async patch<T>(endpoint: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(endpoint, "PATCH", options);
   }
 
   // DELETE 요청
-  async delete(endpoint: string, options: RequestOptions = {}) {
-    return this.request(endpoint, "DELETE", options);
+  async delete<T>(endpoint: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(endpoint, "DELETE", options);
   }
 }
 
