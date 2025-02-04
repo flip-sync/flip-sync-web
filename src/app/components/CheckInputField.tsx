@@ -14,7 +14,6 @@ interface CheckInputFieldProps {
   placeholder: string;
   disabled?: boolean;
   rules?: ValidationRule[];
-  // 즉시 검증할지, 포커스를 잃었을 때 검증할지 설정
   validateMode?: "immediate" | "onBlur";
   onValidation?: (isValid: boolean) => void;
 }
