@@ -1,4 +1,3 @@
-import { userApi } from "@/libs/apis/user";
 import { useState, useEffect } from "react";
 import InputField from "./InputField";
 
@@ -7,6 +6,9 @@ interface VerificationInputProps {
   onEmailChange: (value: string) => void;
   verificationCode: string;
   onVerificationChange: (value: string) => void;
+  onRequestVerification: (email: string) => void;
+  onVerifyCode: (email: string, code: string) => Promise<boolean>;
+  isVerifying?: boolean;
 }
 
 export default function VerificationInput({
@@ -14,6 +16,9 @@ export default function VerificationInput({
   onEmailChange,
   verificationCode,
   onVerificationChange,
+  onRequestVerification,
+  onVerifyCode,
+  isVerifying = false,
 }: VerificationInputProps) {
   const [isRequested, setIsRequested] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300);
@@ -42,17 +47,11 @@ export default function VerificationInput({
     const verifyCode = async () => {
       if (verificationCode.length === 6) {
         try {
-          const response = await userApi.verifyEmailCheck(
-            email,
-            verificationCode
-          );
-          if (response.status === 204) {
-            setVerificationStatus("success");
-          } else {
-            setVerificationStatus("error");
-          }
+          const isSuccess = await onVerifyCode(email, verificationCode);
+          setVerificationStatus(isSuccess ? "success" : "error");
         } catch (error) {
           console.error("인증 코드 확인 실패:", error);
+          setVerificationStatus("error");
         }
       } else {
         setVerificationStatus("");
@@ -60,7 +59,7 @@ export default function VerificationInput({
     };
 
     verifyCode();
-  }, [verificationCode]);
+  }, [verificationCode, email, onVerifyCode]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -84,7 +83,7 @@ export default function VerificationInput({
     setEmailError("");
     setIsRequested(true);
     setTimeLeft(300);
-    userApi.verifyEmail(email);
+    onRequestVerification(email);
   };
 
   const handleResend = () => {
@@ -92,8 +91,9 @@ export default function VerificationInput({
     setVerificationStatus("");
     onVerificationChange("");
     setIsRequested(false);
-    userApi.verifyEmail(email);
+    onRequestVerification(email);
   };
+
   return (
     <div>
       <div className="relative">

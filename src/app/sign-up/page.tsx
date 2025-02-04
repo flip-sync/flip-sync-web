@@ -59,6 +59,24 @@ export default function SignupPage() {
     }
   };
 
+  const handleRequestVerification = async (email: string) => {
+    try {
+      await userApi.verifyEmail(email);
+    } catch (error) {
+      console.error("인증 요청 실패:", error);
+    }
+  };
+
+  const handleVerifyCode = async (email: string, code: string) => {
+    try {
+      const response = await userApi.verifyEmailCheck(email, code);
+      return response.status === 204;
+    } catch (error) {
+      console.error("인증 코드 확인 실패:", error);
+      return false;
+    }
+  };
+
   const passwordRules = [
     {
       validate: (value: string) => value.length >= 8,
@@ -91,6 +109,8 @@ export default function SignupPage() {
             onEmailChange={setEmail}
             verificationCode={verificationCode}
             onVerificationChange={setVerificationCode}
+            onRequestVerification={handleRequestVerification}
+            onVerifyCode={handleVerifyCode}
           />
           <CheckInputField
             label="비밀번호"
