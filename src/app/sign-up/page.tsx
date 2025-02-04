@@ -7,6 +7,7 @@ import VerificationInput from "../components/VerificationInput";
 import CheckInputField from "../components/CheckInputField";
 import InputField from "../components/InputField";
 import SocialLogin from "../components/SocialLogin";
+import { userApi } from "@/libs/apis/user";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -26,18 +27,36 @@ export default function SignupPage() {
     isPasswordConfirmValid &&
     name;
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
-    // TODO: 회원가입 API 호출
 
-    // 회원가입 완료 모달 열기
-    openModal("signupComplete", {
-      onClick: () => {
+    try {
+      const response = await userApi.signUp({
+        email,
+        password,
+        name,
+        passwordConfirm,
+      });
+
+      const handleSignupComplete = () => {
         closeModal();
         router.push("/login");
-      },
-    });
+      };
+
+      const handleSignupError = () => {
+        closeModal();
+      };
+
+      if (response.status === 201) {
+        openModal("signupComplete", { onClick: handleSignupComplete });
+      } else {
+        openModal("signupError", { onClick: handleSignupError });
+      }
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      openModal("signupError", { onClick: closeModal });
+    }
   };
 
   const passwordRules = [

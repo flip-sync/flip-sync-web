@@ -6,15 +6,27 @@ import Link from "next/link";
 import Image from "next/image";
 import InputField from "../components/InputField";
 import SocialLogin from "../components/SocialLogin";
+import { userApi } from "@/libs/apis/user";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/rooms");
+    try {
+      const response = await userApi.login({ email, password });
+      console.log(response, "response");
+      if (response.code === "200_0") {
+        router.push("/rooms");
+      } else {
+        setError(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -44,6 +56,7 @@ export default function LoginPage() {
             placeholder="비밀번호"
             isClearable={password !== ""}
           />
+          {error && <p className="text-[12px] text-red-400 ">{error}</p>}
           <button
             type="submit"
             className="w-full py-2 bg-primary text-white rounded-lg"

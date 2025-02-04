@@ -1,4 +1,4 @@
-import { authApi } from "@/libs/apis/auth";
+import { userApi } from "@/libs/apis/user";
 import { useState, useEffect } from "react";
 import InputField from "./InputField";
 
@@ -38,13 +38,27 @@ export default function VerificationInput({
   }, [isRequested]);
 
   useEffect(() => {
-    if (verificationCode.length === 6) {
-      // TODO: 실제 API 호출로 변경
-      const isValid = verificationCode === "123456"; // 임시 검증 로직
-      setVerificationStatus(isValid ? "success" : "error");
-    } else {
-      setVerificationStatus("");
-    }
+    const verifyCode = async () => {
+      if (verificationCode.length === 6) {
+        try {
+          const response = await userApi.verifyEmailCheck(
+            email,
+            verificationCode
+          );
+          if (response.status === 204) {
+            setVerificationStatus("success");
+          } else {
+            setVerificationStatus("error");
+          }
+        } catch (error) {
+          console.error("인증 코드 확인 실패:", error);
+        }
+      } else {
+        setVerificationStatus("");
+      }
+    };
+
+    verifyCode();
   }, [verificationCode]);
 
   const minutes = Math.floor(timeLeft / 60);
@@ -53,14 +67,15 @@ export default function VerificationInput({
   const handleRequest = () => {
     setIsRequested(true);
     setTimeLeft(300);
-    authApi.verifyEmail(email);
+    userApi.verifyEmail(email);
   };
 
   const handleResend = () => {
     setTimeLeft(300);
     setVerificationStatus("");
     onVerificationChange("");
-    // TODO: 재인증 요청 API 호출
+    setIsRequested(false);
+    userApi.verifyEmail(email);
   };
 
   return (

@@ -4,13 +4,15 @@ import { useModal } from "../../hooks/useModal";
 import AlertModal from "./AlertModal";
 import ConfirmModal from "./ConfirmModal";
 import SignupCompleteModal from "./SignupCompleteModal";
+import SignupErrorModal from "./SignupErrorModal";
 
-type ModalType = "alert" | "confirm" | "signupComplete";
+type ModalType = "alert" | "confirm" | "signupComplete" | "signupError";
 
 const MODAL_COMPONENTS = {
   alert: AlertModal,
   confirm: ConfirmModal,
   signupComplete: SignupCompleteModal,
+  signupError: SignupErrorModal,
 };
 
 export default function Modal() {

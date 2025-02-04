@@ -12,26 +12,28 @@ interface ISignUpParams {
   name: string;
 }
 
-export const authApi = {
-  login: (data: ILoginParams) =>
-    api.post("/auth/login", {
+export const userApi = {
+  login: (data: ILoginParams) => {
+    return api.post("/user/login", {
       data,
-    }),
+    });
+  },
 
   verifyEmail: (email: string) => {
-    api.get("/auth/verify-email", {
+    return api.get("/user/verify-email", {
       data: { email },
     });
   },
 
   verifyEmailCheck: (email: string, code: string) => {
-    api.post("/auth/verify-email/check", {
+    return api.post("/user/verify-email/check", {
       data: { email, code },
     });
   },
 
-  signUp: (data: ISignUpParams) =>
-    api.post("/auth/signup", {
+  signUp: (data: ISignUpParams) => {
+    return api.post("/user/signup", {
       data,
-    }),
+    });
+  },
 };

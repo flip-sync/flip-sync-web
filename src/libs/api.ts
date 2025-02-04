@@ -35,8 +35,9 @@ class Api {
       ...(method !== "GET" && data && { body: JSON.stringify(data) }),
     });
 
-    if (!response.ok) {
-      throw new Error("API 요청 실패");
+    // 추후 삭제
+    if (response.status === 204) {
+      return { status: 204 };
     }
 
     return response.json();
@@ -44,7 +45,7 @@ class Api {
 
   // GET 요청
   async get(endpoint: string, options: RequestOptions = {}) {
-    // return this.request(endpoint, "GET", options);
+    return this.request(endpoint, "GET", options);
   }
 
   // POST 요청
