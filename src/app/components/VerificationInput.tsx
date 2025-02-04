@@ -20,6 +20,7 @@ export default function VerificationInput({
   const [verificationStatus, setVerificationStatus] = useState<
     "" | "success" | "error"
   >("");
+  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     if (!isRequested) return;
@@ -64,7 +65,23 @@ export default function VerificationInput({
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleRequest = () => {
+    if (!email) {
+      setEmailError("이메일을 입력해 주세요.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setEmailError("올바른 이메일 형식을 입력해 주세요.");
+      return;
+    }
+
+    setEmailError("");
     setIsRequested(true);
     setTimeLeft(300);
     userApi.verifyEmail(email);
@@ -77,15 +94,17 @@ export default function VerificationInput({
     setIsRequested(false);
     userApi.verifyEmail(email);
   };
-
   return (
-    <div className="space-y-4">
+    <div>
       <div className="relative">
         <InputField
           label="이메일"
           type="email"
           value={email}
-          onChange={onEmailChange}
+          onChange={(value) => {
+            onEmailChange(value);
+            setEmailError("");
+          }}
           placeholder="이메일"
           disabled={isRequested}
         />
@@ -102,9 +121,11 @@ export default function VerificationInput({
           인증요청
         </button>
       </div>
-
+      {emailError && (
+        <p className="mt-1 text-red-400 text-[12px]">{emailError}</p>
+      )}
       {isRequested && (
-        <div>
+        <div className="mt-4">
           <div className="relative">
             <InputField
               label="인증번호"
