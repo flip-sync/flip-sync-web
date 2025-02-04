@@ -1,15 +1,15 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface RequestOptions<T = any> extends Omit<RequestInit, "body" | "method"> {
+interface RequestOptions<T> extends Omit<RequestInit, "body" | "method"> {
   data?: T;
 }
 
 class Api {
-  private async request<T>(
+  private async request<T, R>(
     endpoint: string,
     method: string,
     options: RequestOptions<T> = {}
-  ) {
+  ): Promise<R> {
     const { data, ...customOptions } = options;
 
     const defaultOptions = {
@@ -24,7 +24,9 @@ class Api {
 
     let url = `${BASE_URL}${endpoint}`;
     if (method === "GET" && data) {
-      const queryParams = new URLSearchParams(data as any).toString();
+      const queryParams = new URLSearchParams(
+        data as Record<string, string>
+      ).toString();
       url = `${url}?${queryParams}`;
     }
 
@@ -37,35 +39,50 @@ class Api {
 
     // 추후 삭제
     if (response.status === 204) {
-      return { status: 204 };
+      return { status: 204 } as R;
     }
 
     return response.json();
   }
 
   // GET 요청
-  async get<T>(endpoint: string, options: RequestOptions<T> = {}) {
-    return this.request<T>(endpoint, "GET", options);
+  async get<T, R>(
+    endpoint: string,
+    options: RequestOptions<T> = {}
+  ): Promise<R> {
+    return this.request<T, R>(endpoint, "GET", options);
   }
 
   // POST 요청
-  async post<T>(endpoint: string, options: RequestOptions<T> = {}) {
-    return this.request<T>(endpoint, "POST", options);
+  async post<T, R>(
+    endpoint: string,
+    options: RequestOptions<T> = {}
+  ): Promise<R> {
+    return this.request<T, R>(endpoint, "POST", options);
   }
 
   // PUT 요청
-  async put<T>(endpoint: string, options: RequestOptions<T> = {}) {
-    return this.request<T>(endpoint, "PUT", options);
+  async put<T, R>(
+    endpoint: string,
+    options: RequestOptions<T> = {}
+  ): Promise<R> {
+    return this.request<T, R>(endpoint, "PUT", options);
   }
 
   // PATCH 요청
-  async patch<T>(endpoint: string, options: RequestOptions<T> = {}) {
-    return this.request<T>(endpoint, "PATCH", options);
+  async patch<T, R>(
+    endpoint: string,
+    options: RequestOptions<T> = {}
+  ): Promise<R> {
+    return this.request<T, R>(endpoint, "PATCH", options);
   }
 
   // DELETE 요청
-  async delete<T>(endpoint: string, options: RequestOptions<T> = {}) {
-    return this.request<T>(endpoint, "DELETE", options);
+  async delete<T, R>(
+    endpoint: string,
+    options: RequestOptions<T> = {}
+  ): Promise<R> {
+    return this.request<T, R>(endpoint, "DELETE", options);
   }
 }
 
