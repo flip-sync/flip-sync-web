@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
+      <body className="suppressHydrationWarning">
         <div className="max-w-screen-lg mx-auto">{children}</div>
         <Modal />
       </body>

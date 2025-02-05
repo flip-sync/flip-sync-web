@@ -15,9 +15,6 @@ class Api {
     const defaultOptions = {
       headers: {
         ...(method !== "GET" && { "Content-Type": "application/json" }),
-        ...(typeof window !== "undefined" && {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }),
         ...customOptions.headers,
       },
     };
