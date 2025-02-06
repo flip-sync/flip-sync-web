@@ -18,7 +18,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const response = await userApi.login({ email, password });
-      console.log(response, "response");
       if (response.code === "200_0") {
         router.push("/rooms");
       } else {
