@@ -2,23 +2,24 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useModal } from "../hooks/useModal";
 import VerificationInput from "../components/VerificationInput";
 import CheckInputField from "../components/CheckInputField";
 import InputField from "../components/InputField";
 import SocialLogin from "../components/SocialLogin";
 import { userApi } from "@/libs/apis/user";
+import { useModal } from "@/hooks/useModal";
+import { confirmPasswordRules, passwordRules } from "@/libs/static";
 
 export default function SignupPage() {
+  const router = useRouter();
+  const { openModal, closeModal } = useModal();
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [name, setName] = useState("");
-  const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
-  const { openModal, closeModal } = useModal();
 
   const isFormValid =
     email &&
@@ -77,28 +78,6 @@ export default function SignupPage() {
     }
   };
 
-  const passwordRules = [
-    {
-      validate: (value: string) => value.length >= 8,
-      message: "비밀번호는 8자 이상이어야 합니다.",
-    },
-    {
-      validate: (value: string) => /[A-Z]/.test(value),
-      message: "대문자를 포함해야 합니다.",
-    },
-    {
-      validate: (value: string) => /[0-9]/.test(value),
-      message: "숫자를 포함해야 합니다.",
-    },
-  ];
-
-  const passwordConfirmRules = [
-    {
-      validate: (value: string) => value === password,
-      message: "비밀번호가 일치하지 않습니다.",
-    },
-  ];
-
   return (
     <div className="flex items-center justify-center py-12">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg">
@@ -128,7 +107,7 @@ export default function SignupPage() {
             value={passwordConfirm}
             onChange={setPasswordConfirm}
             placeholder="비밀번호 확인"
-            rules={passwordConfirmRules}
+            rules={confirmPasswordRules(password)}
             validateMode="immediate"
             onValidation={setIsPasswordConfirmValid}
           />

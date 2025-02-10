@@ -3,8 +3,17 @@
 import { useState, useCallback } from "react";
 import CheckInputField from "../components/CheckInputField";
 import { useModal } from "@/hooks/useModal";
+import { userApi } from "@/libs/apis/user";
+import {
+  confirmPasswordRules,
+  emailRules,
+  passwordRules,
+  verificationCodeRules,
+} from "@/libs/static";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {
+  const router = useRouter();
   const [step, setStep] = useState<number>(1);
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
@@ -12,59 +21,70 @@ export default function ForgotPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isCodeValid, setIsCodeValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
   const { openModal } = useModal();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const emailRules = [
-    {
-      validate: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-      message: "올바른 이메일 형식이 아닙니다.",
-    },
-  ];
-
-  const verificationCodeRules = [
-    {
-      validate: (value: string) => value.length === 6,
-      message: "인증번호는 6자리여야 합니다.",
-    },
-  ];
-
-  const passwordRules = [
-    {
-      validate: (value: string) => value.length >= 8,
-      message: "비밀번호는 8자 이상이어야 합니다.",
-    },
-    {
-      validate: (value: string) =>
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/.test(value),
-      message: "영문, 숫자, 특수문자를 포함해야 합니다.",
-    },
-  ];
-
-  const confirmPasswordRules = [
-    {
-      validate: (value: string) => value === password,
-      message: "비밀번호가 일치하지 않습니다.",
-    },
-  ];
-
-  const handleEmailSubmit = useCallback(() => {
+  const handleEmailSubmit = useCallback(async () => {
+    setIsLoading(true);
     if (isEmailValid) {
-      // TODO: 이메일 인증 요청 API 호출
-      setStep(2);
+      try {
+        const response = await userApi.verifyEmail(email);
+        if (response.code === "200_0") {
+          setStep(2);
+        } else {
+          openModal("alert", { message: response.message });
+        }
+      } catch (error) {
+        console.error("이메일 인증 요청 에러:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }, [isEmailValid]);
+  }, [isEmailValid, email, openModal]);
 
-  const handleVerificationSubmit = useCallback(() => {
+  const handleVerificationSubmit = useCallback(async () => {
     if (isCodeValid) {
-      // TODO: 인증번호 확인 API 호출
-      setStep(3);
+      try {
+        const response = await userApi.verifyEmailCheck(
+          email,
+          verificationCode
+        );
+        if (response.code === "200_0") {
+          setStep(3);
+        } else {
+          openModal("alert", { message: response.message });
+        }
+      } catch (error) {
+        console.error("인증번호 확인 실패:", error);
+      }
     }
   }, [isCodeValid]);
 
-  const handlePasswordSubmit = useCallback(() => {
-    // TODO: 비밀번호 변경 API 호출
-    openModal("alert", { message: "비밀번호가 변경되었습니다." });
-  }, [openModal]);
+  const handlePasswordSubmit = useCallback(async () => {
+    if (isPasswordValid && isConfirmPasswordValid) {
+      try {
+        const response = await userApi.resetPassword({
+          email,
+          password,
+          passwordConfirm: confirmPassword,
+        });
+        if (response.code === "200_0") {
+          openModal("alert", {
+            message: "비밀번호가 변경되었습니다.",
+            onClick: () => {
+              router.push("/login");
+            },
+          });
+        } else {
+          openModal("alert", { message: response.message });
+        }
+      } catch (error) {
+        console.error("비밀번호 변경 실패:", error);
+      }
+    }
+  }, [isPasswordValid, isConfirmPasswordValid]);
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6">
@@ -84,14 +104,14 @@ export default function ForgotPassword() {
           />
           <button
             onClick={handleEmailSubmit}
-            disabled={!isEmailValid}
+            disabled={!isEmailValid || isLoading}
             className={`w-full py-2 rounded-lg ${
-              isEmailValid
+              isEmailValid && !isLoading
                 ? "bg-primary text-white "
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >
-            인증번호 받기
+            {isLoading ? "요청중입니다..." : "인증번호 받기"}
           </button>
         </div>
       )}
@@ -132,6 +152,7 @@ export default function ForgotPassword() {
             placeholder="새 비밀번호를 입력해주세요"
             rules={passwordRules}
             validateMode="immediate"
+            onValidation={setIsPasswordValid}
           />
           <CheckInputField
             label="새 비밀번호 확인"
@@ -139,8 +160,9 @@ export default function ForgotPassword() {
             value={confirmPassword}
             onChange={setConfirmPassword}
             placeholder="새 비밀번호를 다시 입력해주세요"
-            rules={confirmPasswordRules}
+            rules={confirmPasswordRules(password)}
             validateMode="immediate"
+            onValidation={setIsConfirmPasswordValid}
           />
           <button
             onClick={handlePasswordSubmit}

@@ -12,6 +12,12 @@ interface ISignUpParams {
   name: string;
 }
 
+interface IResetPasswordParams {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
 export const userApi = {
   login: (data: ILoginParams) => {
     return api.post("/user/login", {
@@ -33,6 +39,12 @@ export const userApi = {
 
   signUp: (data: ISignUpParams) => {
     return api.post("/user/signup", {
+      data,
+    });
+  },
+
+  resetPassword: (data: IResetPasswordParams) => {
+    return api.post("/user/reset-password", {
       data,
     });
   },
