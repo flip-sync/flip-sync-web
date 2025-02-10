@@ -52,7 +52,12 @@ export default function ForgotPassword() {
           verificationCode
         );
         if (response.code === "200_0") {
-          setStep(3);
+          openModal("alert", {
+            message: "인증번호가 확인되었습니다.",
+            onClick: () => {
+              setStep(3);
+            },
+          });
         } else {
           openModal("alert", { message: response.message });
         }
