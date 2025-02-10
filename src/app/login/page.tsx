@@ -19,6 +19,16 @@ export default function LoginPage() {
     try {
       const response = await userApi.login({ email, password });
       if (response.code === "200_0") {
+        const accessToken = response.data.accessToken;
+        const refreshToken = response.data.refreshToken;
+
+        document.cookie = `accessToken=${accessToken}; path=/; max-age=${
+          15 * 60
+        }; secure; samesite=lax`;
+        document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${
+          7 * 24 * 60 * 60
+        }; secure; samesite=lax`;
+
         router.push("/rooms");
       } else {
         setError(response.message);
