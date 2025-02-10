@@ -17,11 +17,11 @@ class Api {
         ...(method !== "GET" && { "Content-Type": "application/json" }),
         ...customOptions.headers,
       },
+      credentials: "include",
     };
 
     let url = `${BASE_URL}${endpoint}`;
     if (method === "GET" && data) {
-      console.log(data, "data");
       const queryParams = new URLSearchParams(data).toString();
 
       url = `${url}?${queryParams}`;
@@ -32,6 +32,7 @@ class Api {
       ...customOptions,
       method,
       ...(method !== "GET" && data && { body: JSON.stringify(data) }),
+      credentials: "include",
     });
 
     return response.json();
@@ -47,10 +48,6 @@ class Api {
 
   async put<T>(endpoint: string, options: RequestOptions<T> = {}) {
     return this.request<T>(endpoint, "PUT", options);
-  }
-
-  async patch<T>(endpoint: string, options: RequestOptions<T> = {}) {
-    return this.request<T>(endpoint, "PATCH", options);
   }
 
   async delete<T>(endpoint: string, options: RequestOptions<T> = {}) {

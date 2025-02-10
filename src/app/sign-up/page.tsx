@@ -20,13 +20,15 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const isFormValid =
     email &&
     verificationCode &&
     isPasswordValid &&
     isPasswordConfirmValid &&
-    name;
+    name &&
+    isVerified;
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +51,7 @@ export default function SignupPage() {
         closeModal();
       };
 
-      if (response.status === 201) {
+      if (response.code === "200_0") {
         openModal("signupComplete", { onClick: handleSignupComplete });
       } else {
         openModal("signupError", { onClick: handleSignupError });
@@ -69,9 +71,16 @@ export default function SignupPage() {
   };
 
   const handleVerifyCode = async (email: string, code: string) => {
+    if (isVerified) return true;
+
     try {
       const response = await userApi.verifyEmailCheck(email, code);
-      return response.status === 204;
+      if (response.code === "200_0") {
+        setIsVerified(true);
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.error("인증 코드 확인 실패:", error);
       return false;
