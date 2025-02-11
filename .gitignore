@@ -3,9 +3,6 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.*
-.yarn/*
-.yarn.lock
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
@@ -40,4 +37,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-yarn.lock
