@@ -9,7 +9,7 @@ import {
   emailRules,
   passwordRules,
   verificationCodeRules,
-} from "@/libs/static";
+} from "../../libs/static";
 import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {
