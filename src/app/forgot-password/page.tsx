@@ -2,8 +2,8 @@
 
 import { useState, useCallback } from "react";
 import CheckInputField from "../components/CheckInputField";
-import { useModal } from "@/hooks/useModal";
-import { userApi } from "@/libs/apis/user";
+import { useModal } from "../../hooks/useModal";
+import { userApi } from "../../libs/apis/user";
 import {
   confirmPasswordRules,
   emailRules,

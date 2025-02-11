@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import InputField from "../components/InputField";
 import SocialLogin from "../components/SocialLogin";
-import { userApi } from "@/libs/apis/user";
+import { userApi } from "../../libs/apis/user";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
