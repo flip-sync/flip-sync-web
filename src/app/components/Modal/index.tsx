@@ -1,6 +1,6 @@
 "use client";
 
-import { useModal } from "@/hooks/useModal";
+import { useModal } from "../../../hooks/useModal";
 import AlertModal from "./AlertModal";
 import ConfirmModal from "./ConfirmModal";
 import SignupCompleteModal from "./SignupCompleteModal";
