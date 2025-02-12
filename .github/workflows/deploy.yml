@@ -42,6 +42,6 @@ jobs:
             docker stop flip-sync || true
             docker rm flip-sync || true
             docker run -d --name flip-sync \
-              -p 80:3000 \
+              -p 3000:3000 \
               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/flip-sync:latest
