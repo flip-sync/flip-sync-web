@@ -18,7 +18,6 @@ WORKDIR /usr/src/app
 
 # 설정 파일들 먼저 복사
 COPY postcss.config.js ./
-COPY tailwind.config.js ./
 COPY tsconfig.json ./
 
 # 의존성과 소스 복사
