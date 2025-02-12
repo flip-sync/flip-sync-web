@@ -14,7 +14,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  //배포테스트
+  //배포테스
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
