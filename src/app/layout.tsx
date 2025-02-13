@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "flip-sync",
   description: "악보를 공유하고 플레이 하세요!",
 };
+//test
 
 export default function RootLayout({
   children,
