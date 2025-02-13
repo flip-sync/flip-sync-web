@@ -43,5 +43,5 @@ jobs:
             docker rm flip-sync || true
             docker run -d --name flip-sync \
               -p 3000:3000 \
-              -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+              -e NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/flip-sync:latest
