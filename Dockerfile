@@ -16,6 +16,10 @@ RUN yarn install --frozen-lockfile
 FROM base AS builder
 WORKDIR /usr/src/app
 
+# 빌드 시 환경변수 설정
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
 # 설정 파일들 먼저 복사
 COPY postcss.config.js ./
 COPY tsconfig.json ./
