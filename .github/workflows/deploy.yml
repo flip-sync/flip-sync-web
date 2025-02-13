@@ -26,7 +26,7 @@ jobs:
           context: .
           push: true
           build-args: |
-            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+            NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/flip-sync:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/flip-sync:${{ github.sha }}
