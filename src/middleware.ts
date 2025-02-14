@@ -23,7 +23,11 @@ export function middleware(request: NextRequest) {
   }
 
   if (!accessToken && !refreshToken) {
-    if (path === "/login") {
+    if (
+      path === "/login" ||
+      path === "/sign-up" ||
+      path === "/forgot-password"
+    ) {
       return NextResponse.next();
     }
     return NextResponse.redirect(new URL("/login", request.url));
