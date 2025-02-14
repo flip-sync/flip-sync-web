@@ -3,6 +3,18 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
+
+  if (
+    path.includes("/images") ||
+    path.includes(".png") ||
+    path.includes(".jpg") ||
+    path.includes(".jpeg") ||
+    path.includes(".svg") ||
+    path.includes(".ico")
+  ) {
+    return NextResponse.next();
+  }
+
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
