@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import InputField from "./InputField";
+import InputField from "./AuthInputField";
 
 interface ValidationRule {
   validate: (value: string) => boolean;

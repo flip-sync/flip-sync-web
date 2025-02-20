@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import VerificationInput from "../components/VerificationInput";
 import CheckInputField from "../components/CheckInputField";
-import InputField from "../components/InputField";
+import InputField from "../components/AuthInputField";
 import SocialLogin from "../components/SocialLogin";
 import { userApi } from "../../libs/apis/user";
 import { useModal } from "../../hooks/useModal";

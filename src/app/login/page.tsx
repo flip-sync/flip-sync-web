@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import InputField from "../components/InputField";
+import InputField from "../components/AuthInputField";
 import SocialLogin from "../components/SocialLogin";
 import { userApi } from "../../libs/apis/user";
 
