@@ -9,8 +9,10 @@ export default function RootLayout({
 }>) {
   return (
     <div className="max-w-screen-lg mx-auto">
-      <TopBar />
-      {children}
+      <div className="py-[62px] px-[40px]">
+        {/* <TopBar /> */}
+        {children}
+      </div>
       <BottomBar />
       <Footer />
     </div>
