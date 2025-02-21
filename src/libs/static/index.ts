@@ -4,7 +4,7 @@ export const emailRules = [
     message: "올바른 이메일 형식이 아닙니다.",
   },
 ];
-
+ 
 export const verificationCodeRules = [
   {
     validate: (value: string) => value.length === 6,
