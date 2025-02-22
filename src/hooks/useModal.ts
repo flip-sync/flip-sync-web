@@ -7,7 +7,7 @@ interface ModalStore {
   openModal: (type: string, props?: any) => void;
   closeModal: () => void;
 }
-
+ 
 export const useModal = create<ModalStore>((set: any) => ({
   isOpen: false,
   modalType: null,
