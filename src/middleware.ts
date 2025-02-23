@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   if (
     path.includes("/images") ||
     path.includes(".png") ||
-    path.includes(".jpg") ||
+    path.includes(".jpg") || 
     path.includes(".jpeg") ||
     path.includes(".svg") ||
     path.includes(".ico")
