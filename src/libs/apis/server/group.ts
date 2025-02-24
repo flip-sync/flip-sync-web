@@ -5,8 +5,6 @@ export const serverGroupApi = {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
 
-    console.log(token, "token");
-
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/group`,
       {

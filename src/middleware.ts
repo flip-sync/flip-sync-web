@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   if (
     path.includes("/images") ||
     path.includes(".png") ||
-    path.includes(".jpg") || 
+    path.includes(".jpg") ||
     path.includes(".jpeg") ||
     path.includes(".svg") ||
     path.includes(".ico")
@@ -31,6 +31,38 @@ export function middleware(request: NextRequest) {
       return NextResponse.next();
     }
     return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  if (!accessToken && refreshToken) {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/login/refresh`,
+        {
+          method: "POST",
+          headers: {
+            Cookie: `refreshToken=${refreshToken}`,
+          },
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.code === "200_0") {
+        const response = NextResponse.next();
+        response.cookies.set({
+          name: "accessToken",
+          value: data.data.accessToken,
+          maxAge: 15 * 60,
+          path: "/",
+          secure: true,
+          sameSite: "lax",
+        });
+        return response;
+      }
+    } catch (error) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
   if (path === "/") {

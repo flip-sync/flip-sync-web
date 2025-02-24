@@ -21,6 +21,14 @@ export default function RoomListWrapper({
     staleTime: 1000 * 60,
   });
 
+  if (rooms.length < 0) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="text-[16px] text-gray-400">악보 공유방이 없습니다.</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       {rooms.map((room: Room) => (

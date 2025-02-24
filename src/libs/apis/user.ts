@@ -48,4 +48,8 @@ export const userApi = {
       data,
     });
   },
+
+  refreshToken: () => {
+    return api.post("/user/login/refresh");
+  },
 };
