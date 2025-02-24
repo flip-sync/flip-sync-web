@@ -5,16 +5,39 @@ interface RequestOptions<T> extends Omit<RequestInit, "body" | "method"> {
 }
 
 class Api {
+  private getAccessToken() {
+    if (typeof window === "undefined") return null;
+
+    const cookies = document.cookie.split(";");
+    const tokenCookie = cookies.find((cookie) =>
+      cookie.trim().startsWith("accessToken=")
+    );
+
+    if (!tokenCookie) {
+      console.log("Token not found in cookies:", cookies);
+      return null;
+    }
+
+    const token = tokenCookie.split("=")[1]?.trim();
+    return token;
+  }
+
   private async request<T>(
     endpoint: string,
     method: string,
     options: RequestOptions<T> = {}
   ) {
     const { data, ...customOptions } = options;
+    const accessToken = this.getAccessToken();
+
+    console.log(accessToken, "accessToken");
 
     const defaultOptions = {
       headers: {
         ...(method !== "GET" && { "Content-Type": "application/json" }),
+        ...(accessToken && {
+          Authorization: `Bearer ${accessToken}`,
+        }),
         ...customOptions.headers,
       },
       credentials: "include",

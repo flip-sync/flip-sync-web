@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Modal from "./components/Modal";
+import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "flip-sync",
@@ -14,8 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="suppressHydrationWarning">
-        <div className="max-w-screen-lg mx-auto">{children}</div>
+      <body>
+        <QueryProvider>
+          <div className="max-w-screen-lg mx-auto">{children}</div>
+        </QueryProvider>
         <Modal />
       </body>
     </html>
