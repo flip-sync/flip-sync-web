@@ -5,14 +5,21 @@ import AlertModal from "./AlertModal";
 import ConfirmModal from "./ConfirmModal";
 import SignupCompleteModal from "./SignupCompleteModal";
 import SignupErrorModal from "./SignupErrorModal";
+import CreateRoomModal from "./CreateRoomModal";
 
-type ModalType = "alert" | "confirm" | "signupComplete" | "signupError";
+type ModalType =
+  | "alert"
+  | "confirm"
+  | "signupComplete"
+  | "signupError"
+  | "createRoom";
 
 const MODAL_COMPONENTS = {
   alert: AlertModal,
   confirm: ConfirmModal,
   signupComplete: SignupCompleteModal,
   signupError: SignupErrorModal,
+  createRoom: CreateRoomModal,
 };
 
 export default function Modal() {
