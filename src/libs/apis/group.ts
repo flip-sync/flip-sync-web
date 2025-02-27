@@ -1,7 +1,7 @@
-import { api } from ".";
+import { baseUrl } from "./index";
 
 export const groupApi = {
   getGroupList: () => {
-    return api.get("/group");
+    return baseUrl.get("/group");
   },
 };

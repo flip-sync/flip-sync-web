@@ -18,24 +18,27 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const response = await userApi.login({ email, password });
-      if (response.code === "200_0") {
-        const accessToken = response.data.accessToken;
-        const refreshToken = response.data.refreshToken;
-
-        document.cookie = `accessToken=${accessToken}; path=/; max-age=${
-          15 * 60
-        }; secure; samesite=lax`;
-        document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${
-          7 * 24 * 60 * 60
-        }; secure; samesite=lax`;
-
-        router.push("/rooms");
-      } else {
-        setError(response.message);
-      }
+      console.log("response", response, "response");
     } catch (error) {
       console.log(error);
     }
+    //   if (response.code === "200_0") {
+    //     const accessToken = response.data.accessToken;
+    //     const refreshToken = response.data.refreshToken;
+
+    //     console.log(accessToken, refreshToken, "accessToken, refreshToken");
+
+    //     document.cookie = `accessToken=${accessToken}; path=/; max-age=${
+    //       30 * 60
+    //     }; secure; samesite=lax`;
+    //     document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${
+    //       7 * 24 * 60 * 60
+    //     }; secure; samesite=lax`;
+
+    //     router.push("/rooms");
+    //   } else {
+    //     setError(response.message);
+    //   }
   };
 
   return (

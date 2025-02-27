@@ -1,4 +1,4 @@
-import { api } from ".";
+import { baseUrl } from "./index";
 
 interface ILoginParams {
   email: string;
@@ -20,36 +20,32 @@ interface IResetPasswordParams {
 
 export const userApi = {
   login: (data: ILoginParams) => {
-    return api.post("/user/login", {
-      data,
-    });
+    return baseUrl.post("/user/login", data);
   },
 
   verifyEmail: (email: string) => {
-    return api.get("/user/verify-email", {
-      data: { email },
-    });
+    return baseUrl.get("/user/verify-email", { email });
   },
 
   verifyEmailCheck: (email: string, code: string) => {
-    return api.post("/user/verify-email/check", {
-      data: { email, code },
-    });
+    return baseUrl.post("/user/verify-email/check", { email, code });
   },
 
   signUp: (data: ISignUpParams) => {
-    return api.post("/user/signup", {
+    return baseUrl.post("/user/signup", {
       data,
     });
   },
 
   resetPassword: (data: IResetPasswordParams) => {
-    return api.post("/user/reset-password", {
+    return baseUrl.post("/user/reset-password", {
       data,
     });
   },
 
   refreshToken: () => {
-    return api.post("/user/login/refresh");
+    return baseUrl.post("/user/login/refresh", {
+      data: {},
+    });
   },
 };

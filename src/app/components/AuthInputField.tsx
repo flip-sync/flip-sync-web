@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface InputFieldProps {
+interface AuthInputFieldProps {
   label: string;
   type: string;
   value: string;
@@ -11,7 +11,7 @@ interface InputFieldProps {
   onBlur?: () => void;
 }
 
-export default function InputField({
+export default function AuthInputField({
   label,
   type,
   value,
@@ -20,7 +20,7 @@ export default function InputField({
   disabled = false,
   isClearable = false,
   onBlur,
-}: InputFieldProps) {
+}: AuthInputFieldProps) {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={type} className="text-gray-5 text-[12px] leading-[18px]">

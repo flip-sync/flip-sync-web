@@ -28,67 +28,67 @@ export default function ForgotPassword() {
 
   const handleEmailSubmit = useCallback(async () => {
     setIsLoading(true);
-    if (isEmailValid) {
-      try {
-        const response = await userApi.verifyEmail(email);
-        if (response.code === "200_0") {
-          setStep(2);
-        } else {
-          openModal("alert", { message: response.message });
-        }
-      } catch (error) {
-        console.error("이메일 인증 요청 에러:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+    // if (isEmailValid) {
+    //   try {
+    //     const response = await userApi.verifyEmail(email);
+    //     if (response.code === "200_0") {
+    //       setStep(2);
+    //     } else {
+    //       openModal("alert", { message: response.message });
+    //     }
+    //   } catch (error) {
+    //     console.error("이메일 인증 요청 에러:", error);
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // }
   }, [isEmailValid, email, openModal]);
 
   const handleVerificationSubmit = useCallback(async () => {
-    if (isCodeValid) {
-      try {
-        const response = await userApi.verifyEmailCheck(
-          email,
-          verificationCode
-        );
-        if (response.code === "200_0") {
-          openModal("alert", {
-            message: "인증번호가 확인되었습니다.",
-            onClick: () => {
-              setStep(3);
-            },
-          });
-        } else {
-          openModal("alert", { message: response.message });
-        }
-      } catch (error) {
-        console.error("인증번호 확인 실패:", error);
-      }
-    }
+    // if (isCodeValid) {
+    //   try {
+    //     const response = await userApi.verifyEmailCheck(
+    //       email,
+    //       verificationCode
+    //     );
+    //     if (response.code === "200_0") {
+    //       openModal("alert", {
+    //         message: "인증번호가 확인되었습니다.",
+    //         onClick: () => {
+    //           setStep(3);
+    //         },
+    //       });
+    //     } else {
+    //       openModal("alert", { message: response.message });
+    //     }
+    //   } catch (error) {
+    //     console.error("인증번호 확인 실패:", error);
+    //   }
+    // }
   }, [isCodeValid]);
 
   const handlePasswordSubmit = useCallback(async () => {
-    if (isPasswordValid && isConfirmPasswordValid) {
-      try {
-        const response = await userApi.resetPassword({
-          email,
-          password,
-          passwordConfirm: confirmPassword,
-        });
-        if (response.code === "200_0") {
-          openModal("alert", {
-            message: "비밀번호가 변경되었습니다.",
-            onClick: () => {
-              router.push("/login");
-            },
-          });
-        } else {
-          openModal("alert", { message: response.message });
-        }
-      } catch (error) {
-        console.error("비밀번호 변경 실패:", error);
-      }
-    }
+    // if (isPasswordValid && isConfirmPasswordValid) {
+    //   try {
+    //     const response = await userApi.resetPassword({
+    //       email,
+    //       password,
+    //       passwordConfirm: confirmPassword,
+    //     });
+    //     if (response.code === "200_0") {
+    //       openModal("alert", {
+    //         message: "비밀번호가 변경되었습니다.",
+    //         onClick: () => {
+    //           router.push("/login");
+    //         },
+    //       });
+    //     } else {
+    //       openModal("alert", { message: response.message });
+    //     }
+    //   } catch (error) {
+    //     console.error("비밀번호 변경 실패:", error);
+    //   }
+    // }
   }, [isPasswordValid, isConfirmPasswordValid]);
 
   return (

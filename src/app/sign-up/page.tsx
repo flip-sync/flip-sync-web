@@ -34,32 +34,32 @@ export default function SignupPage() {
     e.preventDefault();
     if (!isFormValid) return;
 
-    try {
-      const response = await userApi.signUp({
-        email,
-        password,
-        name,
-        passwordConfirm,
-      });
+    // try {
+    //   const response = await userApi.signUp({
+    //     email,
+    //     password,
+    //     name,
+    //     passwordConfirm,
+    //   });
 
-      const handleSignupComplete = () => {
-        closeModal();
-        router.push("/login");
-      };
+    //   const handleSignupComplete = () => {
+    //     closeModal();
+    //     router.push("/login");
+    //   };
 
-      const handleSignupError = () => {
-        closeModal();
-      };
+    //   const handleSignupError = () => {
+    //     closeModal();
+    //   };
 
-      if (response.code === "200_0") {
-        openModal("signupComplete", { onClick: handleSignupComplete });
-      } else {
-        openModal("signupError", { onClick: handleSignupError });
-      }
-    } catch (error) {
-      console.error("회원가입 실패:", error);
-      openModal("signupError", { onClick: closeModal });
-    }
+    //   if (response.code === "200_0") {
+    //     openModal("signupComplete", { onClick: handleSignupComplete });
+    //   } else {
+    //     openModal("signupError", { onClick: handleSignupError });
+    //   }
+    // } catch (error) {
+    //   console.error("회원가입 실패:", error);
+    //   openModal("signupError", { onClick: closeModal });
+    // }
   };
 
   const handleRequestVerification = async (email: string) => {
@@ -73,18 +73,18 @@ export default function SignupPage() {
   const handleVerifyCode = async (email: string, code: string) => {
     if (isVerified) return true;
 
-    try {
-      const response = await userApi.verifyEmailCheck(email, code);
-      if (response.code === "200_0") {
-        setIsVerified(true);
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error("인증 코드 확인 실패:", error);
-      return false;
-    }
+    // try {
+    //   const response = await userApi.verifyEmailCheck(email, code);
+    //   if (response.code === "200_0") {
+    //     setIsVerified(true);
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // } catch (error) {
+    //   console.error("인증 코드 확인 실패:", error);
+    //   return false;
+    // }
   };
 
   return (
@@ -98,7 +98,8 @@ export default function SignupPage() {
             verificationCode={verificationCode}
             onVerificationChange={setVerificationCode}
             onRequestVerification={handleRequestVerification}
-            onVerifyCode={handleVerifyCode}
+            // onVerifyCode={handleVerifyCode}
+            onVerifyCode={async () => true}
           />
           <CheckInputField
             label="비밀번호"
