@@ -22,50 +22,50 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/rooms", request.url));
   }
 
-  // if (!accessToken && !refreshToken) {
-  //   if (
-  //     path === "/login" ||
-  //     path === "/sign-up" ||
-  //     path === "/forgot-password"
-  //   ) {
-  //     return NextResponse.next();
-  //   }
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
+  if (!accessToken && !refreshToken) {
+    if (
+      path === "/login" ||
+      path === "/sign-up" ||
+      path === "/forgot-password"
+    ) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
-  // if (!accessToken && refreshToken) {
-  //   console.log("refreshToken", refreshToken);
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/login/refresh`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Cookie: `refreshToken=${refreshToken}`,
-  //         },
-  //         credentials: "include",
-  //       }
-  //     );
+  if (!accessToken && refreshToken) {
+    console.log("refreshToken", refreshToken);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/login/refresh`,
+        {
+          method: "POST",
+          headers: {
+            Cookie: `refreshToken=${refreshToken}`,
+          },
+          credentials: "include",
+        }
+      );
 
-  //     const data = await response.json();
+      const data = await response.json();
 
-  //     if (data.code === "200_0") {
-  //       const response = NextResponse.next();
-  //       response.cookies.set({
-  //         name: "accessToken",
-  //         value: data.data.accessToken,
-  //         maxAge: 15 * 60,
-  //         path: "/",
-  //         secure: true,
-  //         sameSite: "lax",
-  //       });
-  //       return response;
-  //     }
-  //   } catch (error) {
-  //     // return NextResponse.redirect(new URL("/login", request.url));
-  //     return NextResponse.next();
-  //   }
-  // }
+      if (data.code === "200_0") {
+        const response = NextResponse.next();
+        response.cookies.set({
+          name: "accessToken",
+          value: data.data.accessToken,
+          maxAge: 15 * 60,
+          path: "/",
+          secure: true,
+          sameSite: "lax",
+        });
+        return response;
+      }
+    } catch (error) {
+      // return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.next();
+    }
+  }
 
   if (path === "/") {
     return NextResponse.redirect(new URL("/rooms", request.url));
