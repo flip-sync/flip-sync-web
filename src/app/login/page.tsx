@@ -24,8 +24,6 @@ export default function LoginPage() {
         const accessToken = response.data.data.accessToken;
         const refreshToken = response.data.data.refreshToken;
 
-        console.log(accessToken, refreshToken, "accessToken, refreshToken");
-
         document.cookie = `accessToken=${accessToken}; path=/; max-age=${
           30 * 60
         }; secure; samesite=lax`;

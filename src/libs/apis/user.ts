@@ -24,11 +24,15 @@ export const userApi = {
   },
 
   verifyEmail: (email: string) => {
-    return baseUrl.get("/user/verify-email", { email });
+    return baseUrl.get("/user/verify-email", {
+      data: { email },
+    });
   },
 
   verifyEmailCheck: (email: string, code: string) => {
-    return baseUrl.post("/user/verify-email/check", { email, code });
+    return baseUrl.post("/user/verify-email/check", {
+      data: { email, code },
+    });
   },
 
   signUp: (data: ISignUpParams) => {
