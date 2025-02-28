@@ -8,7 +8,7 @@ export default function CreateCircleButton({
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-8 right-8 w-14 h-14 bg-blue-500 hover:bg-blue-600 rounded-full shadow-lg flex items-center justify-center transition-colors"
+      className="fixed bottom-16 right-16 w-14 h-14 bg-primary hover:bg-blue-600 rounded-full shadow-lg flex items-center justify-center transition-colors"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

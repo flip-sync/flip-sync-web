@@ -34,36 +34,41 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!accessToken && refreshToken) {
-    console.log("refreshToken", refreshToken);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/login/refresh`,
         {
           method: "POST",
           headers: {
-            Cookie: `refreshToken=${refreshToken}`,
+            "Content-Type": "application/json",
           },
-          credentials: "include",
+          body: JSON.stringify({ refreshToken }),
         }
       );
 
       const data = await response.json();
 
       if (data.code === "200_0") {
-        const response = NextResponse.next();
-        response.cookies.set({
+        const newResponse = NextResponse.next();
+        newResponse.cookies.set({
           name: "accessToken",
           value: data.data.accessToken,
-          maxAge: 15 * 60,
+          maxAge: 30 * 60,
           path: "/",
           secure: true,
           sameSite: "lax",
         });
-        return response;
+        return newResponse;
       }
+
+      const failResponse = NextResponse.redirect(
+        new URL("/login", request.url)
+      );
+      failResponse.cookies.delete("accessToken");
+      failResponse.cookies.delete("refreshToken");
+      return failResponse;
     } catch (error) {
-      // return NextResponse.redirect(new URL("/login", request.url));
-      return NextResponse.next();
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 

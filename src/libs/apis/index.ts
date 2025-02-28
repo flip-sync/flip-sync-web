@@ -13,6 +13,19 @@ const request = async (
   data: any = {},
   props: any = {}
 ) => {
+  const accessToken = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("accessToken="))
+    ?.split("=")[1];
+
+  console.log("accessToken", accessToken);
+
+  if (accessToken) {
+    return (_baseUrlImp.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${accessToken}`);
+  }
+
   if (method === "get") {
     const resp = await _baseUrlImp[method](url, { params: data });
     return resp;
