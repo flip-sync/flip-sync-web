@@ -28,7 +28,7 @@ export default function RoomListWrapper({
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 justify-center">
       {rooms.map((room: Room) => (
         <div key={room.id} className="w-[369px] h-[290px]">
           <div className="flex flex-col gap-2">

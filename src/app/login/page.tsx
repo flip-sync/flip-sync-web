@@ -18,8 +18,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const response = await userApi.login({ email, password });
-      console.log("response", response, "response");
-
       if (response.status === 200) {
         const accessToken = response.data.data.accessToken;
         const refreshToken = response.data.data.refreshToken;

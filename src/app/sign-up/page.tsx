@@ -34,32 +34,32 @@ export default function SignupPage() {
     e.preventDefault();
     if (!isFormValid) return;
 
-    // try {
-    //   const response = await userApi.signUp({
-    //     email,
-    //     password,
-    //     name,
-    //     passwordConfirm,
-    //   });
+    try {
+      const response = await userApi.signUp({
+        email,
+        password,
+        name,
+        passwordConfirm,
+      });
 
-    //   const handleSignupComplete = () => {
-    //     closeModal();
-    //     router.push("/login");
-    //   };
+      const handleSignupComplete = () => {
+        closeModal();
+        router.push("/login");
+      };
 
-    //   const handleSignupError = () => {
-    //     closeModal();
-    //   };
+      const handleSignupError = () => {
+        closeModal();
+      };
 
-    //   if (response.code === "200_0") {
-    //     openModal("signupComplete", { onClick: handleSignupComplete });
-    //   } else {
-    //     openModal("signupError", { onClick: handleSignupError });
-    //   }
-    // } catch (error) {
-    //   console.error("회원가입 실패:", error);
-    //   openModal("signupError", { onClick: closeModal });
-    // }
+      if (response.status === 200) {
+        openModal("signupComplete", { onClick: handleSignupComplete });
+      } else {
+        openModal("signupError", { onClick: handleSignupError });
+      }
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      openModal("signupError", { onClick: closeModal });
+    }
   };
 
   const handleRequestVerification = async (email: string) => {
