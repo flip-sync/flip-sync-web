@@ -18,12 +18,10 @@ const request = async (
     .find((row) => row.startsWith("accessToken="))
     ?.split("=")[1];
 
-  console.log("accessToken", accessToken);
-
   if (accessToken) {
-    return (_baseUrlImp.defaults.headers.common[
+    _baseUrlImp.defaults.headers.common[
       "Authorization"
-    ] = `Bearer ${accessToken}`);
+    ] = `Bearer ${accessToken}`;
   }
 
   if (method === "get") {
