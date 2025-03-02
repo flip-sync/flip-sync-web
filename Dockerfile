@@ -7,7 +7,7 @@ FROM node:18-alpine AS base
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /usr/src/app
-
+ 
 # 의존성 파일 복사 및 설치
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
