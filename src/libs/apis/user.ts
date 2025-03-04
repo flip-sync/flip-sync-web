@@ -1,4 +1,5 @@
 import { baseUrl } from "./index";
+import { ApiResponse, ApiError } from "@/type/api";
 
 interface ILoginParams {
   email: string;
@@ -18,9 +19,19 @@ interface IResetPasswordParams {
   passwordConfirm: string;
 }
 
+interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
 export const userApi = {
-  login: (data: ILoginParams) => {
-    return baseUrl.post("/user/login", data);
+  login: (data: LoginRequest) => {
+    return baseUrl.post<ApiResponse<LoginResponse>>("/user/login", data);
   },
 
   verifyEmail: (email: string) => {

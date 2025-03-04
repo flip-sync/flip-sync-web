@@ -7,6 +7,8 @@ import Image from "next/image";
 import InputField from "../components/AuthInputField";
 import SocialLogin from "../components/SocialLogin";
 import { userApi } from "../../libs/apis/user";
+import { ApiError, API_CODE } from "@/type/api";
+import { AxiosError } from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,11 +18,15 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (email === "" || password === "") {
+      return setError("이메일과 비밀번호를 입력해주세요.");
+    }
+
     try {
       const response = await userApi.login({ email, password });
-      if (response.status === 200) {
-        const accessToken = response.data.data.accessToken;
-        const refreshToken = response.data.data.refreshToken;
+
+      if (response.data.code === API_CODE.SUCCESS) {
+        const { accessToken, refreshToken } = response.data.data;
 
         document.cookie = `accessToken=${accessToken}; path=/; max-age=${
           30 * 60
@@ -30,11 +36,16 @@ export default function LoginPage() {
         }; secure; samesite=lax`;
 
         router.push("/rooms");
-      } else {
-        setError(response.data.data.message);
       }
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        const axiosError = error as AxiosError<ApiError>;
+        setError(
+          axiosError.response?.data?.message || "로그인에 실패했습니다."
+        );
+      } else {
+        setError("알 수 없는 오류가 발생했습니다.");
+      }
     }
   };
 
