@@ -1,32 +1,12 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { Room } from "@/type";
-import { groupApi } from "@/libs/apis/group";
 
 interface RoomListWrapperProps {
-  initialRooms: Room[];
+  rooms: Room[];
 }
 
-export default function RoomListWrapper({
-  initialRooms,
-}: RoomListWrapperProps) {
-  const {
-    data: rooms,
-    isLoading,
-    error,
-  } = useQuery<Room[]>({
-    queryKey: ["rooms"],
-    queryFn: async () => {
-      const response = await groupApi.getGroupList();
-      return response.data;
-    },
-    initialData: initialRooms,
-    staleTime: 1000 * 60,
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-
+export default function RoomListWrapper({ rooms }: RoomListWrapperProps) {
   return (
     <div className="flex flex-wrap gap-4 justify-center">
       {rooms.map((room: Room) => (

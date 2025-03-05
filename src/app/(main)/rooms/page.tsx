@@ -5,26 +5,18 @@ import RoomHeader from "./components/RoomHeader";
 import RoomListWrapper from "./components/RoomListWrapper";
 import CreateCircleButton from "@/app/components/CreateCircleButton";
 import { useModal } from "@/hooks/useModal";
-import { groupApi } from "@/libs/apis/group";
-import { Room } from "@/type";
-
+import { useGroupList } from "@/hooks/group";
 export default function Rooms() {
   const { openModal } = useModal();
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const { rooms, isLoading } = useGroupList();
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      const response = await groupApi.getGroupList();
-      setRooms(response.data);
-    };
-    fetchRooms();
-  }, []);
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="space-y-4">
       <RoomHeader />
       <Suspense fallback={<div>Loading...</div>}>
-        <RoomListWrapper initialRooms={rooms} />
+        {rooms && <RoomListWrapper rooms={rooms} />}
       </Suspense>
       <CreateCircleButton onClick={() => openModal("createRoom")} />
     </div>

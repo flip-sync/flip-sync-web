@@ -1,9 +1,9 @@
 import { baseUrl } from "./index";
-import { ApiResponse } from "@/type/api";
 import { Room } from "@/type";
+import { AxiosResponse } from "axios";
 
 export const groupApi = {
   getGroupList: () => {
-    return baseUrl.get<ApiResponse<Room[]>>("/group");
+    return baseUrl.get<Room[]>("/group");
   },
 };
