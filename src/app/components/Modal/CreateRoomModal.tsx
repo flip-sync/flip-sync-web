@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 interface CreateRoomModalProps {
   onClose: () => void;
-  onSubmit: (name: string, description: string) => void;
+  onSubmit: (name: string) => void;
 }
 
 export default function CreateRoomModal({
@@ -10,11 +10,11 @@ export default function CreateRoomModal({
   onSubmit,
 }: CreateRoomModalProps) {
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    onSubmit(name, description);
+    onSubmit(name);
+    onClose();
   };
 
   return (
@@ -30,12 +30,12 @@ export default function CreateRoomModal({
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <textarea
+        {/* <textarea
           placeholder="공유방 설명"
           className="w-full h-[100px] px-4 py-2 border border-gray-300 rounded-lg mb-[24px] resize-none"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-        />
+        /> */}
         <div className="flex gap-2 w-full">
           <button
             onClick={onClose}
