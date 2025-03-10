@@ -1,11 +1,9 @@
-# 이 Dockerfile은 Next.js 애플리케이션을 위한 멀티 스테이지 빌드 설정입니다.
-
 # base 스테이지: node:18-alpine 이미지를 기반으로 합니다.
 FROM node:18-alpine AS base
 
 # deps 스테이지: 의존성 설치를 위한 단계입니다.
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat 
 WORKDIR /usr/src/app
  
 # 의존성 파일 복사 및 설치
