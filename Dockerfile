@@ -17,16 +17,15 @@ WORKDIR /usr/src/app
 # 빌드 시 환경변수 설정
 ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# 설정 파일들 먼저 복사
+# 의존성과 소스 복사
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
 
-# Next.js 캐시 설정 및 빌드
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=production
-RUN yarn cache clean
-RUN yarn install --production=false
+# 빌드
+RUN yarn install --frozen-lockfile --production=false
 RUN yarn build
 
 # runner 스테이지: 최종 프로덕션 이미지입니다.
