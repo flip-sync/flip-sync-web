@@ -1,10 +1,4 @@
-interface CreateCircleButtonProps {
-  onClick: () => void;
-}
-
-export default function CreateCircleButton({
-  onClick,
-}: CreateCircleButtonProps) {
+function CreateCircleButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
@@ -27,3 +21,5 @@ export default function CreateCircleButton({
     </button>
   );
 }
+
+export default CreateCircleButton;

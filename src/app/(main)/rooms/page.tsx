@@ -5,7 +5,7 @@ import RoomHeader from "./components/RoomHeader";
 import RoomListWrapper from "./components/RoomListWrapper";
 import { useModal } from "../../../hooks/useModal";
 import { useCreateRoom, useInfiniteGroupList } from "../../../hooks/group";
-import CreateCircleButton from "@/app/components/CreateCircleButton";
+import CreateCircleButton from "../../components/CreateCircleButton";
 
 export default function Rooms() {
   const { openModal } = useModal();
