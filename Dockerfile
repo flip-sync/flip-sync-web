@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
  
 # 의존성 파일 복사 및 설치
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # builder 스테이지: 소스 코드 빌드를 위한 단계입니다.
 FROM base AS builder
@@ -23,7 +23,7 @@ COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
 
 # TypeScript 타입 체크 건너뛰기 옵션 추가
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN yarn build || (echo 'Build failed' && exit 1)
 
 # runner 스테이지: 최종 프로덕션 이미지입니다.
@@ -31,7 +31,7 @@ FROM base AS runner
 WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # 보안을 위한 시스템 사용자 및 그룹 생성
 RUN addgroup --system --gid 1001 nodejs
