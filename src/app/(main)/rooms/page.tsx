@@ -9,9 +9,8 @@ import { useGroupList, useCreateRoom } from "@/hooks/group";
 
 export default function Rooms() {
   const { openModal } = useModal();
-  const { rooms, isLoading, error } = useGroupList();
+  const { rooms, isLoading, error } = useGroupList(1, 10);
   const { createRoom } = useCreateRoom();
-
   const handleCreateRoom = () => {
     openModal("createRoom", {
       onSubmit: (name: string) => {

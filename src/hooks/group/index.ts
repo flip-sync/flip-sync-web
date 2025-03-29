@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { groupApi } from "@/libs/apis/group";
 
-export const useGroupList = () => {
+export const useGroupList = (page: number, size: number) => {
   const {
     data: rooms,
     isLoading,
@@ -9,7 +9,7 @@ export const useGroupList = () => {
   } = useQuery({
     queryKey: ["rooms"],
     queryFn: async () => {
-      const response = await groupApi.getGroupList();
+      const response = await groupApi.getGroupList(page, size);
       return response.data.data.content;
     },
   });
