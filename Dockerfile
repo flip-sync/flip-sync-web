@@ -22,16 +22,16 @@ ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
 
-# TypeScript 타입 체크 건너뛰기 옵션 추가
+# Next.js 캐시 설정 및 빌드
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN yarn build || (echo 'Build failed' && exit 1)
+ENV NODE_ENV=production
+RUN yarn cache clean
+RUN yarn install --production=false
+RUN yarn build
 
 # runner 스테이지: 최종 프로덕션 이미지입니다.
 FROM base AS runner
 WORKDIR /usr/src/app
-
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
 
 # 보안을 위한 시스템 사용자 및 그룹 생성
 RUN addgroup --system --gid 1001 nodejs
