@@ -20,6 +20,10 @@ ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# 설정 파일 먼저 복사
+COPY tsconfig.json ./
+COPY next.config.js ./
+
 # 의존성과 소스 복사
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
