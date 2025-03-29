@@ -19,21 +19,19 @@ ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
 
 # 설정 파일들 먼저 복사
-COPY postcss.config.js ./
-COPY tsconfig.json ./
-
-# 의존성과 소스 복사
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
 
-# 빌드
-RUN yarn build
+# TypeScript 타입 체크 건너뛰기 옵션 추가
+ENV NEXT_TELEMETRY_DISABLED 1
+RUN yarn build || (echo 'Build failed' && exit 1)
 
 # runner 스테이지: 최종 프로덕션 이미지입니다.
 FROM base AS runner
 WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED 1
 
 # 보안을 위한 시스템 사용자 및 그룹 생성
 RUN addgroup --system --gid 1001 nodejs
