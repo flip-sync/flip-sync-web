@@ -3,9 +3,9 @@
 import { Suspense, useEffect, useRef, useCallback } from "react";
 import RoomHeader from "./components/RoomHeader";
 import RoomListWrapper from "./components/RoomListWrapper";
-import CreateCircleButton from "../../components/CreateCircleButton";
 import { useModal } from "../../../hooks/useModal";
 import { useCreateRoom, useInfiniteGroupList } from "../../../hooks/group";
+import CreateCircleButton from "@/app/components/CreateCircleButton";
 
 export default function Rooms() {
   const { openModal } = useModal();
