@@ -24,8 +24,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
 
-# 빌드
-RUN yarn install --frozen-lockfile --production=false
+# package-lock.json 제거 후 빌드
+RUN rm -f package-lock.json
+RUN yarn install --production=false
 RUN yarn build
 
 # runner 스테이지: 최종 프로덕션 이미지입니다.
