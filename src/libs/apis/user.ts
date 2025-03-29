@@ -1,5 +1,5 @@
 import { baseUrl } from "./index";
-import { ApiResponse, ApiError } from "@/type/api";
+import { ApiResponse, ApiError } from "../../type/api";
 
 interface ILoginParams {
   email: string;

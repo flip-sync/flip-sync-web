@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Modal from "./components/Modal";
-import QueryProvider from "@/providers/QueryProvider";
+import QueryProvider from "../providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "flip-sync",

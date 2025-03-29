@@ -4,7 +4,7 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query";
-import { groupApi } from "@/libs/apis/group";
+import { groupApi } from "../../libs/apis/group";
 
 export const useInfiniteGroupList = () => {
   return useInfiniteQuery({

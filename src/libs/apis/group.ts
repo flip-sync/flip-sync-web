@@ -1,5 +1,5 @@
 import { baseUrl } from "./index";
-import { Room } from "@/type";
+import { Room } from "../../type";
 
 export const groupApi = {
   getGroupList: (page: number, size: number) => {

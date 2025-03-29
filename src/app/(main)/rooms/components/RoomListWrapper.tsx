@@ -1,6 +1,6 @@
 "use client";
 
-import { Room } from "@/type";
+import { Room } from "../../../../type";
 import { useRouter } from "next/navigation";
 
 interface RoomListWrapperProps {

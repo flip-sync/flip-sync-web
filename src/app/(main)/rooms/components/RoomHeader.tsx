@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Dropdown from "@/app/components/Dropdown";
-import SearchBar from "@/app/components/SearchBar";
+import Dropdown from "../../../components/Dropdown";
+import SearchBar from "../../../components/SearchBar";
 
 type SortType = "latest" | "oldest" | "name";
 
