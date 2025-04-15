@@ -1,3 +1,14 @@
+const withPWA = require("@ducanh2912/next-pwa").default({
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  swcMinify: true,
+  disable: process.env.NODE_ENV === "development",
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
@@ -12,7 +23,6 @@ const nextConfig = {
     ],
   },
   webpack: (config, { isServer }) => {
-    // 웹팩 설정 최적화
     if (!isServer) {
       config.optimization = {
         ...config.optimization,
@@ -27,4 +37,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
